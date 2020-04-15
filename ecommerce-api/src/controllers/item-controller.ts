@@ -33,6 +33,14 @@ export default class ItemController {
         const id = Number(req.params.id);
         const result = items.find(x => x.id === id);
 
+        if (!result) {
+            return res.status(404).send({
+                errors: {
+                    message: 'Item not found',
+                }
+            });
+        }
+        
         result.name = req.body.name;
         result.price = req.body.price;
 
@@ -40,6 +48,19 @@ export default class ItemController {
     }
 
     static delete(req: Request, res: Response, next: NextFunction) {
-        res.send(req.body);
+        const id = Number(req.params.id);
+        const result = items.findIndex(x => x.id === id);
+
+        if (!result) {
+            return res.status(404).send({
+                errors: {
+                    message: 'Item not found',
+                }
+            });
+        }
+
+        items.splice(result, 1);
+
+        res.send(items);
     }
 }

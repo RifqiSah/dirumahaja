@@ -1,23 +1,18 @@
-import { Request, Response, NextFunction } from 'express';
-import Item from '../models/item';
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 // List of Items
-const items: Item[] = [];
-
-export default class ItemController {
-    static index(req: Request, res: Response, next: NextFunction) {
+const items = [];
+class ItemController {
+    static index(req, res, next) {
         res.send(items);
     }
-
-    static store(req: Request, res: Response, next: NextFunction) {
+    static store(req, res, next) {
         items.push(req.body);
         res.send(req.body);
     }
-
-    static show(req: Request, res: Response, next: NextFunction) {
+    static show(req, res, next) {
         const id = Number(req.params.id);
         const result = items.find(x => x.id === id);
-
         if (!result) {
             return res.status(404).send({
                 errors: {
@@ -25,17 +20,16 @@ export default class ItemController {
                 }
             });
         }
-
         res.send(result);
     }
-
-    static update(req: Request, res: Response, next: NextFunction) {
+    static update(req, res, next) {
         items.push(req.body);
         res.send(req.body);
     }
-
-    static delete(req: Request, res: Response, next: NextFunction) {
+    static delete(req, res, next) {
         items.push(req.body);
         res.send(req.body);
     }
 }
+exports.default = ItemController;
+//# sourceMappingURL=item-controller.js.map

@@ -30,12 +30,16 @@ export default class ItemController {
     }
 
     static update(req: Request, res: Response, next: NextFunction) {
-        items.push(req.body);
+        const id = Number(req.params.id);
+        const result = items.find(x => x.id === id);
+
+        result.name = req.body.name;
+        result.price = req.body.price;
+
         res.send(req.body);
     }
 
     static delete(req: Request, res: Response, next: NextFunction) {
-        items.push(req.body);
         res.send(req.body);
     }
 }

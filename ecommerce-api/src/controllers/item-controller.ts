@@ -2,11 +2,69 @@ import { Request, Response, NextFunction } from 'express';
 import Item from '../models/item';
 
 // List of Items
-const items: Item[] = [];
+const items: Item[] = [
+    {
+        'id': 1,
+        'name': 'Laptop',
+        'price': 10000
+    },
+    {
+        'id': 2,
+        'name': 'Mouse',
+        'price': 2000
+    },
+    {
+        'id': 3,
+        'name': 'Keyboard',
+        'price': 5000
+    },
+    {
+        'id': 4,
+        'name': 'HP',
+        'price': 2000
+    },
+    {
+        'id': 5,
+        'name': 'Lampu',
+        'price': 500
+    },
+];
 
 export default class ItemController {
     static index(req: Request, res: Response, next: NextFunction) {
-        res.send(items);
+        const query = req.query;
+        let result;
+
+        if (query) {
+            // Item name
+            result = items.filter((i) => {
+                return i.name.toLowerCase().indexOf(query.q.toString().toLowerCase()) !== -1;
+            });
+
+            // Item price
+            if (query.price) {
+                for (let [k, v] of Object.entries(query.price)) {
+                    let op = k;
+                    let price = Number(v);
+
+                    result = result.filter((i) => {
+                        if (op == 'is') return i.price == price;
+                        if (op == 'lte') return i.price <= price;
+                        if (op == 'gte') return i.price >= price;
+                    });
+                }
+            }
+        }
+
+        if (!result.length) {
+            return res.status(404).send({
+                errors: {
+                    message: 'No item found for the specified criteria',
+                }
+            });
+        }
+
+        res.send(result);
     }
 
     static store(req: Request, res: Response, next: NextFunction) {

@@ -33,9 +33,10 @@ const items: Item[] = [
 export default class ItemController {
     static index(req: Request, res: Response, next: NextFunction) {
         const query = req.query;
-        let result;
+        let result = items;
 
-        if (query) {
+        // Item Query
+        if (Object.keys(query).length !== 0) {
             // Item name
             result = items.filter((i) => {
                 return i.name.toLowerCase().indexOf(query.q.toString().toLowerCase()) !== -1;

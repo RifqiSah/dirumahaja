@@ -2,5 +2,7 @@
 Tempat repo latihan Rifqi :)
 
 ## Daftar Isi
-- [Express JS](expressjs)
-- Belum terpikirkan
+- [Simple Express](expressjs)
+- [Ecommerce API](ecommerce-api)
+- [Envato](envato-ts)
+- Belum terpikirkan ~
